@@ -3,7 +3,7 @@ from tqdm import tqdm
 # input = 'sample.txt'
 input = 'input.txt'
 
-# Took 22 seconds to run, need to optimize
+# Took 14 seconds to run
 with open(input, "r") as f:
     scratchcards = 0
     cards = []
@@ -16,24 +16,21 @@ with open(input, "r") as f:
         
         nums = line[1].split()
         
-        cards.append([winning_nums, [nums]])
-    # breakpoint()
+        cards.append( [winning_nums, nums, 1])
     
     for i, card in enumerate( tqdm(cards)):
         winning_nums = set(card[0])
-        for j in range( len(card[1])):
-            nums = set( card[1][j])
+        for j in range(card[2]): # n_copies
+            nums = set(card[1])
             n_matches = len(winning_nums & nums)
             
-            if n_matches >= 1:
+            if n_matches > 0:
                 for k in range(1, n_matches+1):
                     if i+k < len(cards):
-                        next_card = cards[i+k]
-                        nums = next_card[1][0]
-                        next_card[1].append(nums)
+                        # n_copies
+                        cards[i+k][2] += 1
         
-        # print(len(card[1]))
-        scratchcards += len(card[1])
+        # print(card[2])
+        scratchcards += card[2]
     
     print(f'\nscratchcards: {scratchcards}')
-    breakpoint()
