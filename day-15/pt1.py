@@ -25,13 +25,20 @@ def main(f_name):
         robot_pos[1] = col
         map[row][col] = '@'
         
-    def _check_wall(row, col):
-        # '>'
+    def _check_wall(direction, row, col):
         k = 1
-        while map[row][col+k] == 'O':
-            k += 1
-            if map[row][col+k] == '#':
-                return True
+        
+        if direction == '>':
+            while map[row][col+k] == 'O':
+                k += 1
+                if map[row][col+k] == '#':
+                    return True
+        
+        elif direction == 'v':
+            while map[row+k][col] == 'O':
+                k += 1
+                if map[row+k][col] == '#':
+                    return True
         
         return False
     
@@ -80,15 +87,15 @@ def main(f_name):
                                 map[row][col+1] = 'O'
                             
                             elif map[row][col+1] == 'O':
-                                if _check_wall(row, col):
+                                if _check_wall(direction, row, col):
                                     continue
                                 else:
                                     k = 0
                                     while map[row][col+k] != '.':
                                         k+= 1
                                     
-                                    map[row][col+k] = 'O'
                                     _move_robot(row, col)
+                                    map[row][col+k] = 'O'
                     
                     elif direction == '^':
                         row = robot_pos[0] - 1
@@ -122,7 +129,16 @@ def main(f_name):
                             elif map[row+1][col] == '.':
                                 _move_robot(row, col)
                                 map[row+1][col] = 'O'
-                            # elif map[row+1][col] == 'O':
+                            elif map[row+1][col] == 'O':
+                                if _check_wall(direction, row, col):
+                                    continue
+                                else:
+                                    k = 0
+                                    while map[row+k][col] != '.':
+                                        k+= 1
+                                    
+                                    _move_robot(row, col)
+                                    map[row+k][col] = 'O'
 
                     
                     else:
