@@ -1,6 +1,20 @@
 import sys
 from pprint import pprint
 
+'''
+if direction:
+    if wall next: continue
+    elif empty next: move robot
+    elif box next:
+        if wall next: continue
+        elif empty next: move robot & box
+        elif box next:
+            if wall at end: continue:
+            get index of next empty space
+            move robot
+            move box to index
+'''
+
 def main(f_name):
     map = []
     robot_pos = [0,0]
