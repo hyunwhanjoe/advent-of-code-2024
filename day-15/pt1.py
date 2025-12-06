@@ -15,7 +15,7 @@ if direction:
             move box to index
 '''
 
-def main(f_name):
+def draw_map(f_name):
     map = []
     robot_pos = [0,0]
     
@@ -63,9 +63,9 @@ def main(f_name):
             
             elif line != '\n':
                 for direction in line.strip():
-                    print(direction)
-                    pprint(map)
-                    breakpoint()
+                    # print(direction)
+                    # pprint(map)
+                    # breakpoint()
                     
                     if direction == '<':
                         row = robot_pos[0]
@@ -158,6 +158,23 @@ def main(f_name):
                     else:
                         print('Not a valid direction')
                         break
+    
+    return map
+    
+def sum_gps(map):
+    sum = 0
+    
+    for i in range(len(map)):
+        for j in range(len(map)):
+            if map[i][j] == 'O':
+                sum += 100 * i + j
+    
+    return sum
 
 f_name = sys.argv[1]
-main(f_name)
+
+map = draw_map(f_name)
+sum = sum_gps(map)
+
+if f_name == 'smaller.txt':
+    assert sum == 2028
