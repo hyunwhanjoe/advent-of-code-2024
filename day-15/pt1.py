@@ -47,11 +47,23 @@ def draw_map(f_name):
                 k += 1
                 if map[row][col+k] == '#':
                     return True
+                    
+        elif direction == '<':
+            while map[row][col-k] == 'O':
+                k += 1
+                if map[row][col-k] == '#':
+                    return True
         
         elif direction == 'v':
             while map[row+k][col] == 'O':
                 k += 1
                 if map[row+k][col] == '#':
+                    return True
+        
+        elif direction == '^':
+            while map[row-k][col] == 'O':
+                k += 1
+                if map[row-k][col] == '#':
                     return True
         
         return False
@@ -82,7 +94,16 @@ def draw_map(f_name):
                             elif map[row][col-1] == '.':
                                 _move_robot(row, col)
                                 map[row][col-1] = 'O'
-                            # elif map[row][col-1] == 'O':
+                            elif map[row][col-1] == 'O':
+                                if _check_wall(direction, row, col):
+                                    continue
+                                else:
+                                    k = 0
+                                    while map[row][col-k] != '.':
+                                        k+= 1
+                                    
+                                    _move_robot(row, col)
+                                    map[row][col-k] = 'O'
                     
                     elif direction == '>':
                         row = robot_pos[0]
@@ -126,7 +147,16 @@ def draw_map(f_name):
                             elif map[row-1][col] == '.':
                                 _move_robot(row, col)
                                 map[row-1][col] = 'O'
-                            # elif map[row-1][col] == 'O':
+                            elif map[row-1][col] == 'O':
+                                if _check_wall(direction, row, col):
+                                    continue
+                                else:
+                                    k = 0
+                                    while map[row-k][col] != '.':
+                                        k+= 1
+                                    
+                                    _move_robot(row, col)
+                                    map[row-k][col] = 'O'
                 
                     elif direction == 'v':
                         row = robot_pos[0] + 1
@@ -176,5 +206,7 @@ f_name = sys.argv[1]
 map = draw_map(f_name)
 sum = sum_gps(map)
 
-if f_name == 'smaller.txt':
+if f_name == 'day-15/smaller.txt':
     assert sum == 2028
+elif f_name == 'day-15/larger.txt':
+    assert sum == 10092
