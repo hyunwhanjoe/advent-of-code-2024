@@ -67,6 +67,28 @@ def draw_map(f_name):
                     return True
         
         return False
+        
+    def get_next_index(direction, row, col):
+        k = 0
+        
+        if direction == '<':
+            while map[row][col-k] != '.':
+                k+= 1
+            return k
+        
+        elif direction == '>':
+            while map[row][col+k] != '.':
+                k+= 1
+            return k
+            
+        elif direction == '^':
+            while map[row-k][col] != '.':
+                k+= 1
+            return k
+        elif direction == 'v':
+            while map[row+k][col] != '.':
+                k+= 1
+            return k
     
     with open(f_name, "r") as f:
         for i, line in enumerate(f):
@@ -98,10 +120,7 @@ def draw_map(f_name):
                                 if _check_wall(direction, row, col):
                                     continue
                                 else:
-                                    k = 0
-                                    while map[row][col-k] != '.':
-                                        k+= 1
-                                    
+                                    k = get_next_index(direction, row, col)
                                     _move_robot(row, col)
                                     map[row][col-k] = 'O'
                     
@@ -125,10 +144,7 @@ def draw_map(f_name):
                                 if _check_wall(direction, row, col):
                                     continue
                                 else:
-                                    k = 0
-                                    while map[row][col+k] != '.':
-                                        k+= 1
-                                    
+                                    k = get_next_index(direction, row, col)
                                     _move_robot(row, col)
                                     map[row][col+k] = 'O'
                     
@@ -151,10 +167,7 @@ def draw_map(f_name):
                                 if _check_wall(direction, row, col):
                                     continue
                                 else:
-                                    k = 0
-                                    while map[row-k][col] != '.':
-                                        k+= 1
-                                    
+                                    k = get_next_index(direction, row, col)
                                     _move_robot(row, col)
                                     map[row-k][col] = 'O'
                 
@@ -177,10 +190,7 @@ def draw_map(f_name):
                                 if _check_wall(direction, row, col):
                                     continue
                                 else:
-                                    k = 0
-                                    while map[row+k][col] != '.':
-                                        k+= 1
-                                    
+                                    k = get_next_index(direction, row, col)
                                     _move_robot(row, col)
                                     map[row+k][col] = 'O'
 
@@ -201,12 +211,15 @@ def sum_gps(map):
     
     return sum
 
-f_name = sys.argv[1]
 
+f_name = sys.argv[1]
 map = draw_map(f_name)
 sum = sum_gps(map)
+
 
 if f_name == 'day-15/smaller.txt':
     assert sum == 2028
 elif f_name == 'day-15/larger.txt':
     assert sum == 10092
+elif f_name == 'day-15/input.txt':
+    assert sum == 1_426_855
